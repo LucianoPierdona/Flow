@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LoginRegisterPage = styled.div`
-  display: flex; 
+  display: flex;
   height: 100vh;
   width: 100vw;
 `;
@@ -22,11 +22,9 @@ export const BannerRight = styled.div`
   display: grid;
   place-items: center;
   text-align: center;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.06), 
-  0 2px 2px rgba(0,0,0,0.06), 
-  0 4px 4px rgba(0,0,0,0.06), 
-  0 8px 8px rgba(0,0,0,0.06),
-  0 16px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 2px 2px rgba(0, 0, 0, 0.06),
+    0 4px 4px rgba(0, 0, 0, 0.06), 0 8px 8px rgba(0, 0, 0, 0.06),
+    0 16px 16px rgba(0, 0, 0, 0.06);
 `;
 
 export const FormStyle = styled.form`
@@ -35,15 +33,15 @@ export const FormStyle = styled.form`
   width: 55%;
   & h1 {
     color: #94d3ac;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: .6rem;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 0.6rem;
     font-size: 35px;
     width: 100%;
   }
   & label {
     font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    color:#655c56;
+    font-family: "Poppins", sans-serif;
+    color: #655c56;
     font-size: 13px;
     width: 100%;
     text-align: left;
@@ -52,8 +50,8 @@ export const FormStyle = styled.form`
   & input {
     background: #ccedd2;
     border: 0;
-    font-family: 'Poppins', sans-serif;
-    color:#655c56;
+    font-family: "Poppins", sans-serif;
+    color: #655c56;
     font-weight: 500;
     font-size: 17px;
     padding: 15px 40px 15px 10px;
@@ -66,7 +64,8 @@ export const FormStyle = styled.form`
       background: #94d3ac;
     }
     &:focus {
-
+      outline: none;
+      background: #94d3ac;
     }
     & ~ label {
       margin-top: 5px;
@@ -87,7 +86,8 @@ export const FormStyle = styled.form`
       font-weight: 600;
       font-size: 11px;
       font-family: "Poppins", sans-serif;
-      & a:hover {
+      transition: color 0.1s;
+      &:hover {
         color: #94d3ac;
       }
     }
@@ -100,16 +100,28 @@ export const FormStyle = styled.form`
     padding: 10px 25px;
     font-size: 20px;
     font-weight: 700;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     cursor: pointer;
     transition: color 0.2s;
-    transition: background-color .5s;
+    transition: background-color 0.5s;
     &:focus {
       outline: none;
     }
     &:hover {
       color: #94d3ac;
       background-color: #ccedd2;
+    }
+  }
+  & > a {
+    text-decoration: none;
+    margin-top: 15px;
+    color: #655c56;
+    font-weight: 600;
+    font-size: 11px;
+    font-family: "Poppins", sans-serif;
+    transition: color 0.1s;
+    &:hover {
+      color: #94d3ac;
     }
   }
 `;
