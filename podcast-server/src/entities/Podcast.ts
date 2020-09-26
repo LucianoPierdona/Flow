@@ -13,4 +13,7 @@ export class Podcast {
 
   @Property({ type: "text" })
   title!: string;
+
+  @Property({ type: "string" })
+  url!: string;
 }
