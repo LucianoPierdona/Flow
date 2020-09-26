@@ -12,14 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const core_1 = require("@mikro-orm/core");
 const Podcast_1 = require("./entities/Podcast");
 const mikro_orm_config_1 = __importDefault(require("./mikro-orm.config"));
+const express_1 = __importDefault(require("express"));
+const apollo_server_express_1 = require("apollo-server-express");
+const type_graphql_1 = require("type-graphql");
+const podcast_1 = require("./resolvers/podcast");
+const hello_1 = require("./resolvers/hello");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    ("");
     const orm = yield core_1.MikroORM.init(mikro_orm_config_1.default);
-    orm.em.getConnection();
-    const podcast = orm.em.create(Podcast_1.Podcast, { title: "my fourth podcast" });
-    yield orm.em.nativeInsert(podcast);
+    yield orm.em.getConnection();
+    console.log(Podcast_1.Podcast);
+    const app = express_1.default();
+    const apolloServer = new apollo_server_express_1.ApolloServer({
+        schema: yield type_graphql_1.buildSchema({
+            resolvers: [podcast_1.PodcastResolver, hello_1.HelloResolver],
+            validate: false,
+        }),
+        context: () => ({ em: orm.em }),
+    });
+    apolloServer.applyMiddleware({ app });
+    app.listen(4000, () => {
+        console.log("server started on port 4000");
+    });
 });
 main().catch((err) => {
     console.error(err);
