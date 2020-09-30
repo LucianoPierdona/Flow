@@ -7,6 +7,10 @@ import { buildSchema } from "type-graphql";
 import { PodcastResolver } from "./resolvers/podcast";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
+import redis from "redis";
+import connectRedis from "connect-redis";
+import session from "express-session";
+import { __prod__ } from "./constants";
 
 const main = async () => {
   ("");
@@ -15,12 +19,34 @@ const main = async () => {
   await orm.em.getConnection();
   const app = express();
 
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
+
+  app.use(
+    session({
+      name: "qid",
+      store: new RedisStore({
+        client: redisClient,
+        disableTouch: true,
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+        httpOnly: true,
+        sameSite: "lax",
+        secure: __prod__,
+      },
+      saveUninitialized: false,
+      secret: "meuamigo",
+      resave: false,
+    })
+  );
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [PodcastResolver, HelloResolver, UserResolver],
       validate: false,
     }),
-    context: () => ({ em: orm.em }),
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
   apolloServer.applyMiddleware({ app });
