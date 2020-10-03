@@ -1,15 +1,27 @@
 import { Form, Formik } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useRegisterMutation } from "../../generated/graphql";
+import { toErrorMap } from "../../utils/toErrorMap";
 import { InputField } from "../FormLayout/components/InputField";
 import FormLayout from "../FormLayout/FormLayout";
 
 const Register = () => {
+  const history = useHistory();
+  const [, register] = useRegisterMutation();
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={async (values, { setErrors }) => {
+        const response = await register(values);
+        if (response.data?.register.errors) {
+          setErrors(toErrorMap(response.data.register.errors));
+          console.log(response.data.register.errors);
+        } else if (response.data?.register.user) {
+          // worked
+          history.push("/");
+        }
       }}
     >
       {() => (

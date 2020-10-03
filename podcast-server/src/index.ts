@@ -11,6 +11,7 @@ import redis from "redis";
 import connectRedis from "connect-redis";
 import session from "express-session";
 import { __prod__ } from "./constants";
+import cors from "cors";
 
 const main = async () => {
   ("");
@@ -21,6 +22,14 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
+
+  app.set("trust proxy", 1);
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 
   app.use(
     session({
@@ -49,7 +58,7 @@ const main = async () => {
     context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(4000, () => {
     console.log("server started on port 4000");
