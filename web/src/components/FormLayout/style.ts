@@ -40,7 +40,7 @@ export const BannerRight = styled.div`
   }
 `;
 
-export const FormStyle = styled.form`
+export const FormStyle = styled.div`
   display: flex;
   flex-direction: column;
   width: 55%;
@@ -83,15 +83,13 @@ export const FormStyle = styled.form`
     & ~ label {
       margin-top: 5px;
     }
-    & ~ input {
-      margin-bottom: 15px;
-    }
   }
   & .external-links {
     width: 100%;
     display: flex;
     justify-content: space-between;
     & a {
+      margin-top: 15px;
       text-decoration: none;
       text-align: left;
       margin-bottom: 5px;
