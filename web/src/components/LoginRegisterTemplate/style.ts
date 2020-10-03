@@ -4,6 +4,10 @@ export const LoginRegisterPage = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
+  @media (max-width: 1000px) {
+    display: block;
+    width: 100%;
+  }
 `;
 
 export const BannerLeft = styled.div`
@@ -13,6 +17,10 @@ export const BannerLeft = styled.div`
   place-items: center;
   & img {
     width: 80%;
+  }
+  @media (max-width: 1000px) {
+    width: 100%;
+    border-radius: 0 0 12px 12px;
   }
 `;
 
@@ -25,6 +33,11 @@ export const BannerRight = styled.div`
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 2px 2px rgba(0, 0, 0, 0.06),
     0 4px 4px rgba(0, 0, 0, 0.06), 0 8px 8px rgba(0, 0, 0, 0.06),
     0 16px 16px rgba(0, 0, 0, 0.06);
+  @media (max-width: 1000px) {
+    width: 100%;
+    padding: 30px 0;
+    height 60%;
+  }
 `;
 
 export const FormStyle = styled.form`

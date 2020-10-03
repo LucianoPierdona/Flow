@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { BannerLeft, BannerRight, FormStyle, LoginRegisterPage } from "./style";
 import BannerImage from "../../Assets/podecastenogrupo.svg";
+import { Formik } from "formik";
+import { InputField } from "./components/InputField";
 
 interface FormProps {
   name: String;
@@ -31,25 +33,36 @@ const LoginRegisterTemplate: React.FC<FormProps> = ({ name }) => {
             <img src={BannerImage} alt="flow logo" />
           </BannerLeft>
           <BannerRight>
-            <FormStyle className="animate__animated animate__fadeInDown">
-              <h1>{name}</h1>
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                placeholder="Your email"
-                required
-              />
-              {name === "Forgot Password" ? null : (
-                <>
-                  <label htmlFor="password">Password</label>
-                  <input type="password" placeholder="Your password" />
-                </>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              onSubmit={(values) => console.log(values)}
+            >
+              {() => (
+                <FormStyle className="animate__animated animate__fadeInDown">
+                  <h1>{name}</h1>
+                  <InputField
+                    type="text"
+                    label="Email"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                  />
+                  {name === "Forgot Password" ? null : (
+                    <>
+                      <InputField
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Your password"
+                      />
+                    </>
+                  )}
+                  <div className="external-links">{externalLinks()}</div>
+                  <button type="submit">{name}</button>
+                  <Link to="/">Back to Home</Link>
+                </FormStyle>
               )}
-              <div className="external-links">{externalLinks()}</div>
-              <button type="submit">{name}</button>
-              <Link to="/">Back to Home</Link>
-            </FormStyle>
+            </Formik>
           </BannerRight>
         </LoginRegisterPage>
       </div>
