@@ -6,7 +6,11 @@ import { Field, ObjectType } from "type-graphql";
 export class NewUser {
   @Field()
   @PrimaryKey()
-  id!: number;
+  _id!: number;
+
+  @Field()
+  @Property({ type: "number" })
+  id: number = this._id;
 
   @Field(() => String)
   @Property({ type: "date" })

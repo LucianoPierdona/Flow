@@ -70,9 +70,11 @@ UserResponse = __decorate([
 let UserResolver = class UserResolver {
     me({ req, em }) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("before: ", req.session.userId);
             if (!req.session.userId) {
                 return null;
             }
+            console.log("after: ", req.session.userId);
             const user = yield em.findOne(NewUser_1.NewUser, { id: req.session.userId });
             return user;
         });
@@ -83,7 +85,7 @@ let UserResolver = class UserResolver {
                 return {
                     errors: [
                         {
-                            field: "username",
+                            field: "email",
                             message: "length must be greater than 2",
                         },
                     ],
@@ -109,18 +111,21 @@ let UserResolver = class UserResolver {
                 yield em.persistAndFlush(user);
             }
             catch (err) {
-                if (err.code === "23505" || err.detail.includes("already exists")) {
+                console.log(err);
+                if (err.detail.includes("already exists")) {
                     return {
                         errors: [
                             {
-                                field: "username",
+                                field: "email",
                                 message: "username already taken",
                             },
                         ],
                     };
                 }
             }
+            console.log("reqb", req.session);
             req.session.userId = user.id;
+            console.log("reqa", req.session);
             return { user };
         });
     }
@@ -131,7 +136,7 @@ let UserResolver = class UserResolver {
                 return {
                     errors: [
                         {
-                            field: "username",
+                            field: "email",
                             message: "that username doesn't exist",
                         },
                     ],
@@ -148,7 +153,10 @@ let UserResolver = class UserResolver {
                     ],
                 };
             }
+            console.log("reqb", req.session);
             req.session.userId = user.id;
+            console.log("reqa", req.session);
+            console.log(req.session.userId);
             return {
                 user,
             };

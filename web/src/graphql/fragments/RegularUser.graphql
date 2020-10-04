@@ -1,0 +1,4 @@
+fragment RegularUser on NewUser {
+  id
+  username
+}

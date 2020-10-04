@@ -14,6 +14,7 @@ const core_1 = require("@mikro-orm/core");
 const type_graphql_1 = require("type-graphql");
 let NewUser = class NewUser {
     constructor() {
+        this.id = this._id;
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
@@ -21,6 +22,11 @@ let NewUser = class NewUser {
 __decorate([
     type_graphql_1.Field(),
     core_1.PrimaryKey(),
+    __metadata("design:type", Number)
+], NewUser.prototype, "_id", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    core_1.Property({ type: "number" }),
     __metadata("design:type", Number)
 ], NewUser.prototype, "id", void 0);
 __decorate([

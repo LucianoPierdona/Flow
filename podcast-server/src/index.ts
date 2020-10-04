@@ -12,6 +12,7 @@ import connectRedis from "connect-redis";
 import session from "express-session";
 import { __prod__ } from "./constants";
 import cors from "cors";
+import { MyContext } from "./types";
 
 const main = async () => {
   ("");
@@ -20,17 +21,16 @@ const main = async () => {
   await orm.em.getConnection();
   const app = express();
 
-  const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient();
-
   app.set("trust proxy", 1);
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: ["http://localhost:3000", "http://localhost:4000/graphql"],
       credentials: true,
     })
   );
 
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
   app.use(
     session({
       name: "qid",
@@ -55,7 +55,7 @@ const main = async () => {
       resolvers: [PodcastResolver, HelloResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }) => ({ em: orm.em, req, res }),
+    context: ({ req, res }): MyContext => <MyContext>{ em: orm.em, req, res },
   });
 
   apolloServer.applyMiddleware({ app, cors: false });

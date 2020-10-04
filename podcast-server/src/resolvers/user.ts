@@ -42,9 +42,14 @@ export class UserResolver {
   @Query(() => NewUser, { nullable: true })
   async me(@Ctx() { req, em }: MyContext) {
     //you are not logged in
+
+    console.log("before: ", req.session.userId);
+
     if (!req.session.userId) {
       return null;
     }
+
+    console.log("after: ", req.session.userId);
 
     const user = await em.findOne(NewUser, { id: req.session.userId });
     return user;
@@ -59,7 +64,7 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: "username",
+            field: "email",
             message: "length must be greater than 2",
           },
         ],
@@ -85,12 +90,13 @@ export class UserResolver {
     try {
       await em.persistAndFlush(user);
     } catch (err) {
-      if (err.code === "23505" || err.detail.includes("already exists")) {
+      console.log(err);
+      if (err.detail.includes("already exists")) {
         // duplicate username error
         return {
           errors: [
             {
-              field: "username",
+              field: "email",
               message: "username already taken",
             },
           ],
@@ -98,7 +104,11 @@ export class UserResolver {
       }
     }
 
+    console.log("reqb", req.session);
+
     req.session.userId = user.id;
+
+    console.log("reqa", req.session);
 
     return { user };
   }
@@ -113,7 +123,7 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: "username",
+            field: "email",
             message: "that username doesn't exist",
           },
         ],
@@ -131,7 +141,12 @@ export class UserResolver {
       };
     }
 
+    console.log("reqb", req.session);
+
     req.session.userId = user.id;
+
+    console.log("reqa", req.session);
+    console.log(req.session.userId);
 
     return {
       user,
