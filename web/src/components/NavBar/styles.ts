@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const NavBarContainer = styled.div`
   font-family: "Roboto", sans-serif;
   background: #ccedd2;
+  width: 100%;
+  position: fixed;
   border-radius: 0px 0px 20px 20px;
   height: 55px;
   & > div {
@@ -23,6 +25,7 @@ export const NavBarContainer = styled.div`
       font-weight: 700;
       color: #effcef;
       display: flex;
+      align-items: center;
       & p {
         color: #655c56;
         transition: color 0.2s;
@@ -32,6 +35,7 @@ export const NavBarContainer = styled.div`
         }
       }
       & a {
+        font-size: 10px;
         text-decoration: none;
         margin: 0 5px;
         color: tomato;

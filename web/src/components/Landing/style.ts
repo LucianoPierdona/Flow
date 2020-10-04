@@ -4,7 +4,7 @@ export const LandingBanner = styled.div`
   display: flex;
   position: relative;
   z-index: -1;
-  top: -8px;
+  top: 46px;
   & .image-banner {
     background: #effcef;
     width: 50%;
