@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const NavBar = styled.div`
-  font-family: 'Roboto', sans-serif;
+export const NavBarContainer = styled.div`
+  font-family: "Roboto", sans-serif;
   background: #ccedd2;
   border-radius: 0px 0px 20px 20px;
   height: 55px;
@@ -22,13 +22,22 @@ export const NavBar = styled.div`
     & .navbar-right {
       font-weight: 700;
       color: #effcef;
+      display: flex;
+      & p {
+        color: #655c56;
+        transition: color 0.2s;
+        cursor: pointer;
+        &:hover {
+          color: #94d3ac;
+        }
+      }
       & a {
         text-decoration: none;
         margin: 0 5px;
-        color: #655c56;
+        color: tomato;
         transition: color 0.2s;
         &:hover {
-          color: #94d3ac;
+          color: #655c56;
         }
       }
     }

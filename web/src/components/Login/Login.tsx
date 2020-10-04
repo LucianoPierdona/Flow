@@ -1,15 +1,26 @@
 import { Form, Formik } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useLoginMutation } from "../../generated/graphql";
+import { toErrorMap } from "../../utils/toErrorMap";
 import { InputField } from "../FormLayout/components/InputField";
 import FormLayout from "../FormLayout/FormLayout";
 
 const Login = () => {
+  const history = useHistory();
+  const [, login] = useLoginMutation();
+
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
-      onSubmit={(values) => {
-        console.log(values);
+      initialValues={{ username: "", password: "" }}
+      onSubmit={async (values, { setErrors }) => {
+        const response = await login({ options: values });
+        if (response.data?.login.errors) {
+          setErrors(toErrorMap(response.data.login.errors));
+        } else if (response.data?.login.user) {
+          // worked
+          history.push("/");
+        }
       }}
     >
       {() => (
@@ -19,7 +30,7 @@ const Login = () => {
             <InputField
               type="text"
               label="Email"
-              name="email"
+              name="username"
               placeholder="Your Email"
               required
             />
