@@ -7,6 +7,7 @@ export const NavBarContainer = styled.div`
   position: fixed;
   border-radius: 0px 0px 20px 20px;
   height: 55px;
+  z-index: 3;
   & > div {
     width: 90%;
     margin: 0 auto;

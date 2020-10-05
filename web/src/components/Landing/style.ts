@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const LandingBanner = styled.div`
   display: flex;
   position: relative;
-  z-index: -1;
+  z-index: 1;
   top: 46px;
   & .image-banner {
     background: #effcef;
@@ -32,7 +32,21 @@ export const LandingBanner = styled.div`
       font-family: "Roboto", sans-serif;
       color: #655c56;
       width: 70%;
-      margin: 10px auto;
+      margin: 10px auto 25px auto;
+    }
+    & a {
+      margin: 15px;
+      background: #94d3ac;
+      color: #655c56;
+      text-decoration: none;
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      padding: 10px 35px;
+      border-radius: 12px;
+      transition: background-color 0.2s;
+      &:hover {
+        background: #ccedd2;
+      }
     }
   }
 `;
@@ -44,7 +58,7 @@ export const CreateContainer = styled.div`
   background: #94d3ac;
   text-align: center;
   align-items: center;
-  z-index: -2;
+  z-index: 0;
   padding: 75px 0;
   & h1 {
     font-family: "Roboto", sans-serif;
