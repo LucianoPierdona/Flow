@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useMeQuery } from "../../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { NavBarContainer } from "./styles";
 
 const NavBar = () => {
+  const [, logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery();
   let rightBar = null;
 
@@ -22,7 +23,13 @@ const NavBar = () => {
     rightBar = (
       <>
         <p>{data.me.username}</p>
-        <Link to="/">Logout</Link>
+        <button
+          onClick={() => {
+            logout();
+          }}
+        >
+          logout
+        </button>
       </>
     );
   }

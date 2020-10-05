@@ -31,11 +31,25 @@ export const NavBarContainer = styled.div`
         color: #655c56;
         transition: color 0.2s;
         cursor: pointer;
+        font-size: 10px;
         &:hover {
           color: #94d3ac;
         }
       }
       & a {
+        font-size: 10px;
+        text-decoration: none;
+        margin: 0 5px;
+        color: #94d3ac;
+        transition: color 0.2s;
+        &:hover {
+          color: #655c56;
+        }
+      }
+      & button {
+        border: 0;
+        background: none;
+        cursor: pointer;
         font-size: 10px;
         text-decoration: none;
         margin: 0 5px;
