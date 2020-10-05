@@ -1,7 +1,8 @@
 import React from "react";
 import NavBar from "../NavBar/NavBar";
 import BannerImage from "../../Assets/podecastenogrupo2.svg";
-import { LandingBanner } from "./style";
+import { CreateContainer, LandingBanner } from "./style";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -19,6 +20,11 @@ const Landing = () => {
           </p>
         </div>
       </LandingBanner>
+      <CreateContainer>
+        <h1>Create Your Podcast Card</h1>
+        <p>Click in the button below to create your podcast.</p>
+        <Link to="/">Create Podcast</Link>
+      </CreateContainer>
     </>
   );
 };
