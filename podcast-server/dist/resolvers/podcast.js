@@ -26,7 +26,9 @@ const type_graphql_1 = require("type-graphql");
 const Podcast_1 = require("../entities/Podcast");
 let PodcastResolver = class PodcastResolver {
     podcasts({ em }) {
-        return em.find(Podcast_1.Podcast, {});
+        return __awaiter(this, void 0, void 0, function* () {
+            return em.find(Podcast_1.Podcast, {});
+        });
     }
     podcast(id, { em }) {
         return em.findOne(Podcast_1.Podcast, { id });
@@ -59,7 +61,7 @@ __decorate([
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "podcasts", null);
 __decorate([
     type_graphql_1.Query(() => Podcast_1.Podcast, { nullable: true }),

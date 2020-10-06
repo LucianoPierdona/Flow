@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
+import { isServer } from "../../utils/isServer";
 import { NavBarContainer } from "./styles";
 
 const NavBar = () => {
   const [, logout] = useLogoutMutation();
-  const [{ data, fetching }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery({
+    pause: isServer(),
+  });
   let rightBar = null;
 
   if (fetching) {

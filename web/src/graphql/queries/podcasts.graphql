@@ -1,0 +1,8 @@
+query Podcasts {
+  podcasts {
+    createdAt
+    updatedAt
+    title
+    url
+  }
+}

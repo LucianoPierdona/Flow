@@ -155,6 +155,17 @@ export type MeQuery = (
   )> }
 );
 
+export type PodcastsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PodcastsQuery = (
+  { __typename?: 'Query' }
+  & { podcasts: Array<(
+    { __typename?: 'Podcast' }
+    & Pick<Podcast, 'createdAt' | 'updatedAt' | 'title' | 'url'>
+  )> }
+);
+
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on NewUser {
   id
@@ -214,4 +225,18 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const PodcastsDocument = gql`
+    query Podcasts {
+  podcasts {
+    createdAt
+    updatedAt
+    title
+    url
+  }
+}
+    `;
+
+export function usePodcastsQuery(options: Omit<Urql.UseQueryArgs<PodcastsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PodcastsQuery>({ query: PodcastsDocument, ...options });
 };

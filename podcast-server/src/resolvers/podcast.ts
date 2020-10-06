@@ -6,7 +6,7 @@ import { Podcast } from "../entities/Podcast";
 export class PodcastResolver {
   // Get all Podcasts
   @Query(() => [Podcast])
-  podcasts(@Ctx() { em }: MyContext) {
+  async podcasts(@Ctx() { em }: MyContext) {
     return em.find(Podcast, {});
   }
 
