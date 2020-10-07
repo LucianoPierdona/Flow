@@ -33,10 +33,16 @@ let PodcastResolver = class PodcastResolver {
     podcast(id, { em }) {
         return em.findOne(Podcast_1.Podcast, { id });
     }
-    createPodcast(title, url, id, { em }) {
+    createPodcast(title, url, thumbnail, description, id, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
             id = Math.floor(Math.random() * 10000000 + 1);
-            const podcast = em.create(Podcast_1.Podcast, { title, url, id });
+            const podcast = em.create(Podcast_1.Podcast, {
+                title,
+                url,
+                description,
+                thumbnail,
+                id,
+            });
             yield em.persistAndFlush(podcast);
             return podcast;
         });
@@ -75,10 +81,12 @@ __decorate([
     type_graphql_1.Mutation(() => Podcast_1.Podcast),
     __param(0, type_graphql_1.Arg("title")),
     __param(1, type_graphql_1.Arg("url")),
-    __param(2, type_graphql_1.Arg("id")),
-    __param(3, type_graphql_1.Ctx()),
+    __param(2, type_graphql_1.Arg("thumbnail")),
+    __param(3, type_graphql_1.Arg("description")),
+    __param(4, type_graphql_1.Arg("id")),
+    __param(5, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Number, Object]),
+    __metadata("design:paramtypes", [String, String, String, String, Number, Object]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "createPodcast", null);
 __decorate([

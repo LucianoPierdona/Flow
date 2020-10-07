@@ -14,6 +14,7 @@ const core_1 = require("@mikro-orm/core");
 const type_graphql_1 = require("type-graphql");
 let Podcast = class Podcast {
     constructor() {
+        this.id = this._id;
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
@@ -21,6 +22,11 @@ let Podcast = class Podcast {
 __decorate([
     type_graphql_1.Field(),
     core_1.PrimaryKey(),
+    __metadata("design:type", Number)
+], Podcast.prototype, "_id", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    core_1.Property({ type: "number" }),
     __metadata("design:type", Number)
 ], Podcast.prototype, "id", void 0);
 __decorate([
@@ -43,6 +49,16 @@ __decorate([
     core_1.Property({ type: "string" }),
     __metadata("design:type", String)
 ], Podcast.prototype, "url", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    core_1.Property({ type: "string" }),
+    __metadata("design:type", String)
+], Podcast.prototype, "thumbnail", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    core_1.Property({ type: "string" }),
+    __metadata("design:type", String)
+], Podcast.prototype, "description", void 0);
 Podcast = __decorate([
     type_graphql_1.ObjectType(),
     core_1.Entity()

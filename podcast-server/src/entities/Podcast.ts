@@ -6,7 +6,11 @@ import { Field, ObjectType } from "type-graphql";
 export class Podcast {
   @Field()
   @PrimaryKey()
-  id!: number;
+  _id!: number;
+
+  @Field()
+  @Property({ type: "number" })
+  id: number = this._id;
 
   @Field(() => String)
   @Property({ type: "date" })
@@ -23,4 +27,12 @@ export class Podcast {
   @Field()
   @Property({ type: "string" })
   url!: string;
+
+  @Field()
+  @Property({ type: "string" })
+  thumbnail!: string;
+
+  @Field()
+  @Property({ type: "string" })
+  description: string;
 }

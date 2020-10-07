@@ -1,8 +1,9 @@
 query Podcasts {
   podcasts {
-    createdAt
-    updatedAt
+    id
     title
     url
+    thumbnail
+    description
   }
 }

@@ -24,11 +24,19 @@ export class PodcastResolver {
   async createPodcast(
     @Arg("title") title: string,
     @Arg("url") url: string,
+    @Arg("thumbnail") thumbnail: string,
+    @Arg("description") description: string,
     @Arg("id") id: number,
     @Ctx() { em }: MyContext
   ): Promise<Podcast> {
     id = Math.floor(Math.random() * 10000000 + 1);
-    const podcast = em.create(Podcast, { title, url, id });
+    const podcast = em.create(Podcast, {
+      title,
+      url,
+      description,
+      thumbnail,
+      id,
+    });
     await em.persistAndFlush(podcast);
     return podcast;
   }

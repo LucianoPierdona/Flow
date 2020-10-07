@@ -3,7 +3,9 @@ import React from "react";
 import { usePodcastsQuery } from "../../generated/graphql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import NavBar from "../NavBar/NavBar";
+import PodcastCard from "../PodcastCard/PodcastCard";
 import { LandingStaticContent } from "./components/LandingStaticContent";
+import { PodcastList } from "./style";
 
 const Landing = () => {
   const [{ data }] = usePodcastsQuery();
@@ -12,11 +14,21 @@ const Landing = () => {
     <>
       <NavBar />
       <LandingStaticContent />
-      {!data ? (
-        <div>Loading...</div>
-      ) : (
-        data.podcasts.map((p) => <div key={p.title}>{p.url}</div>)
-      )}
+      <PodcastList>
+        {!data ? (
+          <div>Loading...</div>
+        ) : (
+          data.podcasts.map((p) => (
+            <PodcastCard
+              title={p.title}
+              url={p.url}
+              id={p.id}
+              thumbnail={p.thumbnail}
+              description={p.description}
+            />
+          ))
+        )}
+      </PodcastList>
     </>
   );
 };

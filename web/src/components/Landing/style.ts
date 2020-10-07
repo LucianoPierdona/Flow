@@ -83,3 +83,13 @@ export const CreateContainer = styled.div`
     }
   }
 `;
+
+export const PodcastList = styled.div`
+  position: relative;
+  top: 50px;
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+`;

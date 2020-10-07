@@ -27,11 +27,14 @@ export type QueryPodcastArgs = {
 
 export type Podcast = {
   __typename?: 'Podcast';
+  _id: Scalars['Float'];
   id: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   title: Scalars['String'];
   url: Scalars['String'];
+  thumbnail: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export type NewUser = {
@@ -55,6 +58,8 @@ export type Mutation = {
 
 export type MutationCreatePodcastArgs = {
   id: Scalars['Float'];
+  description: Scalars['String'];
+  thumbnail: Scalars['String'];
   url: Scalars['String'];
   title: Scalars['String'];
 };
@@ -162,7 +167,7 @@ export type PodcastsQuery = (
   { __typename?: 'Query' }
   & { podcasts: Array<(
     { __typename?: 'Podcast' }
-    & Pick<Podcast, 'createdAt' | 'updatedAt' | 'title' | 'url'>
+    & Pick<Podcast, 'id' | 'title' | 'url' | 'thumbnail' | 'description'>
   )> }
 );
 
@@ -229,10 +234,11 @@ export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'q
 export const PodcastsDocument = gql`
     query Podcasts {
   podcasts {
-    createdAt
-    updatedAt
+    id
     title
     url
+    thumbnail
+    description
   }
 }
     `;
