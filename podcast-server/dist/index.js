@@ -13,8 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-const core_1 = require("@mikro-orm/core");
-const mikro_orm_config_1 = __importDefault(require("./mikro-orm.config"));
 const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
@@ -26,10 +24,21 @@ const connect_redis_1 = __importDefault(require("connect-redis"));
 const express_session_1 = __importDefault(require("express-session"));
 const constants_1 = require("./constants");
 const cors_1 = __importDefault(require("cors"));
+const typeorm_1 = require("typeorm");
+const Podcast_1 = require("./entities/Podcast");
+const NewUser_1 = require("./entities/NewUser");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     ("");
-    const orm = yield core_1.MikroORM.init(mikro_orm_config_1.default);
-    yield orm.em.getConnection();
+    const conn = yield typeorm_1.createConnection({
+        type: "mongodb",
+        database: "podcast",
+        host: "localhost",
+        port: 27017,
+        logging: false,
+        synchronize: true,
+        entities: [Podcast_1.Podcast, NewUser_1.NewUser],
+    });
+    console.log(conn);
     const app = express_1.default();
     app.set("trust proxy", 1);
     app.use(cors_1.default({
@@ -59,7 +68,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             resolvers: [podcast_1.PodcastResolver, hello_1.HelloResolver, user_1.UserResolver],
             validate: false,
         }),
-        context: ({ req, res }) => ({ em: orm.em, req, res }),
+        context: ({ req, res }) => ({ req, res, redis: redis_1.default }),
     });
     apolloServer.applyMiddleware({ app, cors: false });
     app.listen(4000, () => {

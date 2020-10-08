@@ -25,56 +25,57 @@ exports.PodcastResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Podcast_1 = require("../entities/Podcast");
 let PodcastResolver = class PodcastResolver {
-    podcasts({ em }) {
+    podcasts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return em.find(Podcast_1.Podcast, {});
+            return Podcast_1.Podcast.find();
         });
     }
-    podcast(id, { em }) {
-        return em.findOne(Podcast_1.Podcast, { id });
+    podcast(id) {
+        return Podcast_1.Podcast.findOne(id);
     }
-    createPodcast(title, url, thumbnail, description, id, { em }) {
+    createPodcast(title, url, thumbnail, description, id) {
         return __awaiter(this, void 0, void 0, function* () {
             id = Math.floor(Math.random() * 10000000 + 1);
-            const podcast = em.create(Podcast_1.Podcast, {
+            return Podcast_1.Podcast.create({
                 title,
                 url,
                 description,
                 thumbnail,
                 id,
-            });
-            yield em.persistAndFlush(podcast);
-            return podcast;
+            }).save();
         });
     }
-    updatePodcast(id, title, { em }) {
+    updatePodcast(id, title) {
         return __awaiter(this, void 0, void 0, function* () {
-            const podcast = yield em.findOne(Podcast_1.Podcast, { id });
+            const podcast = yield Podcast_1.Podcast.findOne(id);
             console.log(id);
             if (!podcast) {
                 return null;
             }
             if (typeof title !== "undefined") {
-                podcast.title = title;
-                yield em.persistAndFlush(podcast);
+                yield Podcast_1.Podcast.update({ id }, { title });
             }
             return podcast;
+        });
+    }
+    deletePost(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield Podcast_1.Podcast.delete(id);
+            return true;
         });
     }
 };
 __decorate([
     type_graphql_1.Query(() => [Podcast_1.Podcast]),
-    __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "podcasts", null);
 __decorate([
     type_graphql_1.Query(() => Podcast_1.Podcast, { nullable: true }),
     __param(0, type_graphql_1.Arg("id")),
-    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "podcast", null);
 __decorate([
@@ -84,20 +85,25 @@ __decorate([
     __param(2, type_graphql_1.Arg("thumbnail")),
     __param(3, type_graphql_1.Arg("description")),
     __param(4, type_graphql_1.Arg("id")),
-    __param(5, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String, Number, Object]),
+    __metadata("design:paramtypes", [String, String, String, String, Number]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "createPodcast", null);
 __decorate([
     type_graphql_1.Mutation(() => Podcast_1.Podcast, { nullable: true }),
     __param(0, type_graphql_1.Arg("id")),
     __param(1, type_graphql_1.Arg("title", () => String, { nullable: true })),
-    __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "updatePodcast", null);
+__decorate([
+    type_graphql_1.Mutation(() => Boolean),
+    __param(0, type_graphql_1.Arg("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PodcastResolver.prototype, "deletePost", null);
 PodcastResolver = __decorate([
     type_graphql_1.Resolver()
 ], PodcastResolver);

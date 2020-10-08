@@ -1,6 +1,4 @@
 import "reflect-metadata";
-import { MikroORM } from "@mikro-orm/core";
-import mikroOrmConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -12,13 +10,24 @@ import connectRedis from "connect-redis";
 import session from "express-session";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import cors from "cors";
-import { MyContext } from "./types";
+import { createConnection } from "typeorm";
+import { Podcast } from "./entities/Podcast";
+import { NewUser } from "./entities/NewUser";
 
 const main = async () => {
   ("");
-  const orm = await MikroORM.init(mikroOrmConfig);
-  // await orm.getMigrator().up();
-  await orm.em.getConnection();
+
+  const conn = await createConnection({
+    type: "mongodb",
+    database: "podcast",
+    host: "localhost",
+    port: 27017,
+    logging: false,
+    synchronize: true,
+    entities: [Podcast, NewUser],
+  });
+  console.log(conn);
+
   const app = express();
 
   app.set("trust proxy", 1);
@@ -55,7 +64,7 @@ const main = async () => {
       resolvers: [PodcastResolver, HelloResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }): MyContext => <MyContext>{ em: orm.em, req, res },
+    context: ({ req, res }) => ({ req, res, redis }),
   });
 
   apolloServer.applyMiddleware({ app, cors: false });

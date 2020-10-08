@@ -12,6 +12,7 @@ import {
 } from "type-graphql";
 import argon2 from "argon2";
 import { COOKIE_NAME } from "../constants";
+import { getConnection } from "typeorm";
 
 @InputType()
 class UsernamePasswordInput {
@@ -41,7 +42,7 @@ class UserResponse {
 @Resolver()
 export class UserResolver {
   @Query(() => NewUser, { nullable: true })
-  async me(@Ctx() { req, em }: MyContext) {
+  async me(@Ctx() { req }: MyContext) {
     //you are not logged in
 
     console.log("before: ", req.session.userId);
@@ -52,14 +53,16 @@ export class UserResolver {
 
     console.log("after: ", req.session.userId);
 
-    const user = await em.findOne(NewUser, { id: req.session.userId });
+    const id = req.session.userId;
+
+    const user = await NewUser.findOne(id);
     return user;
   }
 
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: UsernamePasswordInput,
-    @Ctx() { em, req }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     if (options.username.length <= 2) {
       return {
@@ -83,13 +86,21 @@ export class UserResolver {
     }
 
     const hashedPassword = await argon2.hash(options.password);
-    const user = em.create(NewUser, {
-      id: Math.floor(Math.random() * 10000000 + 1),
-      username: options.username,
-      password: hashedPassword,
-    });
+    let user;
     try {
-      await em.persistAndFlush(user);
+      const result = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(NewUser)
+        .values({
+          id: Math.floor(Math.random() * 10000000 + 1),
+          username: options.username,
+          password: hashedPassword,
+        })
+        .returning("*")
+        .execute();
+
+      user = result.raw[0];
     } catch (err) {
       console.log(err);
       if (err.detail.includes("already exists")) {
@@ -117,9 +128,9 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   async login(
     @Arg("options") options: UsernamePasswordInput,
-    @Ctx() { em, req }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await em.findOne(NewUser, { username: options.username });
+    const user = await NewUser.findOne({ username: options.username });
     if (!user) {
       return {
         errors: [

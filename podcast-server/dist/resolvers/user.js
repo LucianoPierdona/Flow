@@ -29,6 +29,7 @@ const NewUser_1 = require("../entities/NewUser");
 const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
 const constants_1 = require("../constants");
+const typeorm_1 = require("typeorm");
 let UsernamePasswordInput = class UsernamePasswordInput {
 };
 __decorate([
@@ -69,18 +70,19 @@ UserResponse = __decorate([
     type_graphql_1.ObjectType()
 ], UserResponse);
 let UserResolver = class UserResolver {
-    me({ req, em }) {
+    me({ req }) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("before: ", req.session.userId);
             if (!req.session.userId) {
                 return null;
             }
             console.log("after: ", req.session.userId);
-            const user = yield em.findOne(NewUser_1.NewUser, { id: req.session.userId });
+            const id = req.session.userId;
+            const user = yield NewUser_1.NewUser.findOne(id);
             return user;
         });
     }
-    register(options, { em, req }) {
+    register(options, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (options.username.length <= 2) {
                 return {
@@ -103,13 +105,20 @@ let UserResolver = class UserResolver {
                 };
             }
             const hashedPassword = yield argon2_1.default.hash(options.password);
-            const user = em.create(NewUser_1.NewUser, {
-                id: Math.floor(Math.random() * 10000000 + 1),
-                username: options.username,
-                password: hashedPassword,
-            });
+            let user;
             try {
-                yield em.persistAndFlush(user);
+                const result = yield typeorm_1.getConnection()
+                    .createQueryBuilder()
+                    .insert()
+                    .into(NewUser_1.NewUser)
+                    .values({
+                    id: Math.floor(Math.random() * 10000000 + 1),
+                    username: options.username,
+                    password: hashedPassword,
+                })
+                    .returning("*")
+                    .execute();
+                user = result.raw[0];
             }
             catch (err) {
                 console.log(err);
@@ -130,9 +139,9 @@ let UserResolver = class UserResolver {
             return { user };
         });
     }
-    login(options, { em, req }) {
+    login(options, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield em.findOne(NewUser_1.NewUser, { username: options.username });
+            const user = yield NewUser_1.NewUser.findOne({ username: options.username });
             if (!user) {
                 return {
                     errors: [
