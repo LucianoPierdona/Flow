@@ -21,7 +21,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({
   return (
     <PodcastCardStyle key={id}>
       <div className="img-block">
-        <img src={thumbnail} />
+        <img src={thumbnail} alt={title} />
       </div>
 
       <div>

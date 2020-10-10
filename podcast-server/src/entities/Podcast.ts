@@ -6,7 +6,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
+import { NewUser } from "./NewUser";
 
 @ObjectType()
 @Entity()
@@ -19,13 +21,12 @@ export class Podcast extends BaseEntity {
   @Column()
   id: number = this._id;
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
+  @Field()
+  @Column()
+  creatorId: number;
 
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @ManyToOne(() => NewUser, (user) => user.podcasts)
+  creator: NewUser;
 
   @Field()
   @Column()
@@ -42,4 +43,12 @@ export class Podcast extends BaseEntity {
   @Field()
   @Column()
   description: string;
+
+  @Field(() => String)
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Field(() => String)
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

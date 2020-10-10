@@ -22,8 +22,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PodcastResolver = void 0;
+const isAuth_1 = require("../middleware/isAuth");
 const type_graphql_1 = require("type-graphql");
 const Podcast_1 = require("../entities/Podcast");
+let PodcastInput = class PodcastInput {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], PodcastInput.prototype, "title", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], PodcastInput.prototype, "description", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], PodcastInput.prototype, "url", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], PodcastInput.prototype, "thumbnail", void 0);
+PodcastInput = __decorate([
+    type_graphql_1.InputType()
+], PodcastInput);
 let PodcastResolver = class PodcastResolver {
     podcasts() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,16 +55,10 @@ let PodcastResolver = class PodcastResolver {
     podcast(id) {
         return Podcast_1.Podcast.findOne(id);
     }
-    createPodcast(title, url, thumbnail, description, id) {
+    createPodcast(input, id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
             id = Math.floor(Math.random() * 10000000 + 1);
-            return Podcast_1.Podcast.create({
-                title,
-                url,
-                description,
-                thumbnail,
-                id,
-            }).save();
+            return Podcast_1.Podcast.create(Object.assign(Object.assign({}, input), { creatorId: req.session.userId, id })).save();
         });
     }
     updatePodcast(id, title) {
@@ -80,13 +96,12 @@ __decorate([
 ], PodcastResolver.prototype, "podcast", null);
 __decorate([
     type_graphql_1.Mutation(() => Podcast_1.Podcast),
-    __param(0, type_graphql_1.Arg("title")),
-    __param(1, type_graphql_1.Arg("url")),
-    __param(2, type_graphql_1.Arg("thumbnail")),
-    __param(3, type_graphql_1.Arg("description")),
-    __param(4, type_graphql_1.Arg("id")),
+    type_graphql_1.UseMiddleware(isAuth_1.isAuth),
+    __param(0, type_graphql_1.Arg("input")),
+    __param(1, type_graphql_1.Arg("id")),
+    __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String, Number]),
+    __metadata("design:paramtypes", [PodcastInput, Number, Object]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "createPodcast", null);
 __decorate([

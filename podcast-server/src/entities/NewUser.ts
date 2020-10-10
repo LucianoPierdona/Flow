@@ -6,7 +6,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+import { Podcast } from "./Podcast";
 
 @ObjectType()
 @Entity()
@@ -19,6 +21,16 @@ export class NewUser extends BaseEntity {
   @Column()
   id: number = this._id;
 
+  @Field()
+  @Column({ unique: true })
+  username!: string;
+
+  @Column()
+  password!: string;
+
+  @OneToMany(() => Podcast, (podcast) => podcast.creator)
+  podcasts: Podcast[];
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
@@ -26,11 +38,4 @@ export class NewUser extends BaseEntity {
   @Field(() => String)
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @Field()
-  @Column({ unique: true })
-  username!: string;
-
-  @Column()
-  password!: string;
 }

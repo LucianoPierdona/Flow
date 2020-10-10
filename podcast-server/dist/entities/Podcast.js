@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Podcast = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const NewUser_1 = require("./NewUser");
 let Podcast = class Podcast extends typeorm_1.BaseEntity {
     constructor() {
         super(...arguments);
@@ -29,15 +30,14 @@ __decorate([
     __metadata("design:type", Number)
 ], Podcast.prototype, "id", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
-    typeorm_1.CreateDateColumn(),
-    __metadata("design:type", Date)
-], Podcast.prototype, "createdAt", void 0);
+    type_graphql_1.Field(),
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Podcast.prototype, "creatorId", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
-    typeorm_1.UpdateDateColumn(),
-    __metadata("design:type", Date)
-], Podcast.prototype, "updatedAt", void 0);
+    typeorm_1.ManyToOne(() => NewUser_1.NewUser, (user) => user.podcasts),
+    __metadata("design:type", NewUser_1.NewUser)
+], Podcast.prototype, "creator", void 0);
 __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column(),
@@ -58,6 +58,16 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Podcast.prototype, "description", void 0);
+__decorate([
+    type_graphql_1.Field(() => String),
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", Date)
+], Podcast.prototype, "createdAt", void 0);
+__decorate([
+    type_graphql_1.Field(() => String),
+    typeorm_1.UpdateDateColumn(),
+    __metadata("design:type", Date)
+], Podcast.prototype, "updatedAt", void 0);
 Podcast = __decorate([
     type_graphql_1.ObjectType(),
     typeorm_1.Entity()

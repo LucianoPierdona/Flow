@@ -1,5 +1,28 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { isAuth } from "../middleware/isAuth";
+import { MyContext } from "../types";
+import {
+  Arg,
+  Ctx,
+  Field,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
 import { Podcast } from "../entities/Podcast";
+
+@InputType()
+class PodcastInput {
+  @Field()
+  title: string;
+  @Field()
+  description: string;
+  @Field()
+  url: string;
+  @Field()
+  thumbnail: string;
+}
 
 @Resolver()
 export class PodcastResolver {
@@ -17,19 +40,16 @@ export class PodcastResolver {
 
   // Create a new podcast
   @Mutation(() => Podcast)
+  @UseMiddleware(isAuth)
   async createPodcast(
-    @Arg("title") title: string,
-    @Arg("url") url: string,
-    @Arg("thumbnail") thumbnail: string,
-    @Arg("description") description: string,
-    @Arg("id") id: number
+    @Arg("input") input: PodcastInput,
+    @Arg("id") id: number,
+    @Ctx() { req }: MyContext
   ): Promise<Podcast> {
     id = Math.floor(Math.random() * 10000000 + 1);
     return Podcast.create({
-      title,
-      url,
-      description,
-      thumbnail,
+      ...input,
+      creatorId: req.session.userId,
       id,
     }).save();
   }
