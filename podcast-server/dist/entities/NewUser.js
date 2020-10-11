@@ -22,7 +22,7 @@ let NewUser = class NewUser extends typeorm_1.BaseEntity {
 __decorate([
     type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    __metadata("design:type", Object)
 ], NewUser.prototype, "_id", void 0);
 __decorate([
     type_graphql_1.Field(),

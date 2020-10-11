@@ -26,7 +26,7 @@ const main = async () => {
     synchronize: true,
     entities: [Podcast, NewUser],
   });
-  console.log(conn);
+  conn.isConnected;
 
   const app = express();
 

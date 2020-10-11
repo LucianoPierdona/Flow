@@ -9,13 +9,14 @@ import {
   OneToMany,
 } from "typeorm";
 import { Podcast } from "./Podcast";
+import { toObjectId } from "../utils/ObjectID";
 
 @ObjectType()
 @Entity()
 export class NewUser extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  _id!: number;
+  _id!: typeof toObjectId;
 
   @Field()
   @Column()

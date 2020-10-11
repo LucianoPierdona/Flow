@@ -38,7 +38,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         synchronize: true,
         entities: [Podcast_1.Podcast, NewUser_1.NewUser],
     });
-    console.log(conn);
+    conn.isConnected;
     const app = express_1.default();
     app.set("trust proxy", 1);
     app.use(cors_1.default({

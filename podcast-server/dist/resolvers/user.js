@@ -107,35 +107,20 @@ let UserResolver = class UserResolver {
             const hashedPassword = yield argon2_1.default.hash(options.password);
             let user;
             try {
-                const result = yield typeorm_1.getConnection()
-                    .createQueryBuilder()
-                    .insert()
-                    .into(NewUser_1.NewUser)
-                    .values({
-                    id: Math.floor(Math.random() * 10000000 + 1),
-                    username: options.username,
-                    password: hashedPassword,
-                })
-                    .returning("*")
-                    .execute();
-                user = result.raw[0];
+                user = new NewUser_1.NewUser();
+                user.id = Math.floor(Math.random() * 10000000 + 1);
+                user.username = options.username;
+                user.password = hashedPassword;
+                const manager = typeorm_1.getMongoManager();
+                yield manager.save(user);
             }
             catch (err) {
-                console.log(err);
-                if (err.detail.includes("already exists")) {
-                    return {
-                        errors: [
-                            {
-                                field: "email",
-                                message: "username already taken",
-                            },
-                        ],
-                    };
-                }
+                console.log("ERRO" + err);
             }
             console.log("reqb", req.session);
-            req.session.userId = user.id;
+            req.session.userId = user === null || user === void 0 ? void 0 : user.id;
             console.log("reqa", req.session);
+            console.log(user);
             return { user };
         });
     }

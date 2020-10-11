@@ -25,6 +25,7 @@ exports.PodcastResolver = void 0;
 const isAuth_1 = require("../middleware/isAuth");
 const type_graphql_1 = require("type-graphql");
 const Podcast_1 = require("../entities/Podcast");
+const typeorm_1 = require("typeorm");
 let PodcastInput = class PodcastInput {
 };
 __decorate([
@@ -57,8 +58,21 @@ let PodcastResolver = class PodcastResolver {
     }
     createPodcast(input, id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            id = Math.floor(Math.random() * 10000000 + 1);
-            return Podcast_1.Podcast.create(Object.assign(Object.assign({}, input), { creatorId: req.session.userId, id })).save();
+            const result = new Podcast_1.Podcast();
+            const manager = typeorm_1.getMongoManager();
+            try {
+                id = Math.floor(Math.random() * 10000000 + 1);
+                result.title = input.title;
+                result.url = input.url;
+                result.thumbnail = input.thumbnail;
+                result.description = input.description;
+                result.creatorId = req.session.userId;
+                result.id = id;
+            }
+            catch (err) {
+                console.log(err);
+            }
+            return yield manager.save(result);
         });
     }
     updatePodcast(id, title) {
