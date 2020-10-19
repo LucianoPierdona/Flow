@@ -27,29 +27,31 @@ export type QueryPodcastArgs = {
 
 export type Podcast = {
   __typename?: 'Podcast';
-  _id: Scalars['Float'];
   id: Scalars['Float'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  creatorId: Scalars['Float'];
+  creator: NewUser;
   title: Scalars['String'];
   url: Scalars['String'];
   thumbnail: Scalars['String'];
   description: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
 export type NewUser = {
   __typename?: 'NewUser';
-  _id: Scalars['Float'];
   id: Scalars['Float'];
+  username: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  username: Scalars['String'];
+  email: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createPodcast: Podcast;
   updatePodcast?: Maybe<Podcast>;
+  deletePost: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
@@ -58,15 +60,17 @@ export type Mutation = {
 
 export type MutationCreatePodcastArgs = {
   id: Scalars['Float'];
-  description: Scalars['String'];
-  thumbnail: Scalars['String'];
-  url: Scalars['String'];
-  title: Scalars['String'];
+  input: PodcastInput;
 };
 
 
 export type MutationUpdatePodcastArgs = {
   title?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+};
+
+
+export type MutationDeletePostArgs = {
   id: Scalars['Float'];
 };
 
@@ -78,6 +82,13 @@ export type MutationRegisterArgs = {
 
 export type MutationLoginArgs = {
   options: UsernamePasswordInput;
+};
+
+export type PodcastInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  thumbnail: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -168,6 +179,10 @@ export type PodcastsQuery = (
   & { podcasts: Array<(
     { __typename?: 'Podcast' }
     & Pick<Podcast, 'id' | 'title' | 'url' | 'thumbnail' | 'description'>
+    & { creator: (
+      { __typename?: 'NewUser' }
+      & Pick<NewUser, 'id' | 'username'>
+    ) }
   )> }
 );
 
@@ -239,6 +254,10 @@ export const PodcastsDocument = gql`
     url
     thumbnail
     description
+    creator {
+      id
+      username
+    }
   }
 }
     `;
