@@ -3,24 +3,22 @@ import {
   Entity,
   Column,
   BaseEntity,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Podcast } from "./Podcast";
-import { toObjectId } from "../utils/ObjectID";
 
 @ObjectType()
 @Entity()
 export class NewUser extends BaseEntity {
-  @Field()
   @PrimaryGeneratedColumn()
-  _id!: typeof toObjectId;
+  idServer: number;
 
   @Field()
   @Column()
-  id: number = this._id;
+  id!: number;
 
   @Field()
   @Column({ unique: true })

@@ -14,16 +14,11 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Podcast_1 = require("./Podcast");
 let NewUser = class NewUser extends typeorm_1.BaseEntity {
-    constructor() {
-        super(...arguments);
-        this.id = this._id;
-    }
 };
 __decorate([
-    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Object)
-], NewUser.prototype, "_id", void 0);
+    __metadata("design:type", Number)
+], NewUser.prototype, "idServer", void 0);
 __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column(),

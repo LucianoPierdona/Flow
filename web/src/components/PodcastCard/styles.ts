@@ -10,15 +10,17 @@ export const PodcastCardStyle = styled.div`
   align-items: center;
   justify-content: space-between;
   & .img-block {
-    width: 40%;
+    width: 50%;
     & img {
+      object-fit: cover;
       height: auto;
       width: 100%;
     }
   }
   & div {
+    padding-left: 12px;
     width: 60%;
-    text-align: center;
+    text-align: left;
   }
   & a {
     text-decoration: none;

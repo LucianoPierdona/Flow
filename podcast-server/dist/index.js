@@ -37,6 +37,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         logging: false,
         synchronize: true,
         entities: [Podcast_1.Podcast, NewUser_1.NewUser],
+        useUnifiedTopology: true,
     });
     conn.isConnected;
     const app = express_1.default();

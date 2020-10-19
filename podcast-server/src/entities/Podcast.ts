@@ -13,13 +13,12 @@ import { NewUser } from "./NewUser";
 @ObjectType()
 @Entity()
 export class Podcast extends BaseEntity {
-  @Field()
   @PrimaryGeneratedColumn()
-  _id!: number;
+  idServer: number;
 
   @Field()
   @Column()
-  id: number = this._id;
+  id!: number;
 
   @Field()
   @Column()

@@ -25,6 +25,7 @@ const main = async () => {
     logging: false,
     synchronize: true,
     entities: [Podcast, NewUser],
+    useUnifiedTopology: true,
   });
   conn.isConnected;
 
