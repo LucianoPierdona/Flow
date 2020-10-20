@@ -5,6 +5,7 @@ import {
   Ctx,
   Field,
   InputType,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -35,8 +36,8 @@ export class PodcastResolver {
 
   // Get One Podcast
   @Query(() => Podcast, { nullable: true })
-  podcast(@Arg("id") id: number): Promise<Podcast | undefined> {
-    return Podcast.findOne(id);
+  podcast(@Arg("id", () => Int) id: number): Promise<Podcast | undefined> {
+    return Podcast.findOne(id, { relations: ["creatorId"] });
   }
 
   // Create a new podcast
@@ -85,8 +86,11 @@ export class PodcastResolver {
   }
 
   @Mutation(() => Boolean)
-  async deletePost(@Arg("id") id: number): Promise<boolean> {
-    await Podcast.delete(id);
+  async deletePost(
+    @Arg("id") id: number,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
+    await Podcast.delete({ id, creatorId: req.session.userId });
     return true;
   }
 }

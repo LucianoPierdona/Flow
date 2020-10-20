@@ -24,6 +24,7 @@ export class Podcast extends BaseEntity {
   @Column()
   creatorId: number;
 
+  @Field()
   @ManyToOne(() => NewUser, (user) => user.podcasts)
   creator: NewUser;
 

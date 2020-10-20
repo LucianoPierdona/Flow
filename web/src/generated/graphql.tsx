@@ -22,7 +22,7 @@ export type Query = {
 
 
 export type QueryPodcastArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 export type Podcast = {
@@ -113,6 +113,16 @@ export type RegularUserFragment = (
   & Pick<NewUser, 'id' | 'username'>
 );
 
+export type DeletePostMutationVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type DeletePostMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deletePost'>
+);
+
 export type LoginMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -178,11 +188,7 @@ export type PodcastsQuery = (
   { __typename?: 'Query' }
   & { podcasts: Array<(
     { __typename?: 'Podcast' }
-    & Pick<Podcast, 'id' | 'title' | 'url' | 'thumbnail' | 'description'>
-    & { creator: (
-      { __typename?: 'NewUser' }
-      & Pick<NewUser, 'id' | 'username'>
-    ) }
+    & Pick<Podcast, 'id' | 'title' | 'url' | 'thumbnail' | 'description' | 'creatorId'>
   )> }
 );
 
@@ -192,6 +198,15 @@ export const RegularUserFragmentDoc = gql`
   username
 }
     `;
+export const DeletePostDocument = gql`
+    mutation DeletePost($id: Float!) {
+  deletePost(id: $id)
+}
+    `;
+
+export function useDeletePostMutation() {
+  return Urql.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument);
+};
 export const LoginDocument = gql`
     mutation Login($options: UsernamePasswordInput!) {
   login(options: $options) {
@@ -254,10 +269,7 @@ export const PodcastsDocument = gql`
     url
     thumbnail
     description
-    creator {
-      id
-      username
-    }
+    creatorId
   }
 }
     `;

@@ -54,7 +54,7 @@ let PodcastResolver = class PodcastResolver {
         });
     }
     podcast(id) {
-        return Podcast_1.Podcast.findOne(id);
+        return Podcast_1.Podcast.findOne(id, { relations: ["creatorId"] });
     }
     createPodcast(input, id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -88,9 +88,9 @@ let PodcastResolver = class PodcastResolver {
             return podcast;
         });
     }
-    deletePost(id) {
+    deletePost(id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield Podcast_1.Podcast.delete(id);
+            yield Podcast_1.Podcast.delete({ id, creatorId: req.session.userId });
             return true;
         });
     }
@@ -103,7 +103,7 @@ __decorate([
 ], PodcastResolver.prototype, "podcasts", null);
 __decorate([
     type_graphql_1.Query(() => Podcast_1.Podcast, { nullable: true }),
-    __param(0, type_graphql_1.Arg("id")),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
@@ -129,8 +129,9 @@ __decorate([
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
     __param(0, type_graphql_1.Arg("id")),
+    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "deletePost", null);
 PodcastResolver = __decorate([

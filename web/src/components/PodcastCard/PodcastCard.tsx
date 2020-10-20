@@ -1,11 +1,13 @@
 import React from "react";
+import { useDeletePostMutation } from "../../generated/graphql";
 import { PodcastCardStyle } from "./styles";
+import { FaTrash } from "react-icons/fa";
 
 interface PodcastCardProps {
   url: string;
   title: string;
   thumbnail?: string;
-  id: number;
+  id: any;
   description?: string;
 }
 
@@ -16,8 +18,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({
   id,
   description,
 }) => {
-  console.log(thumbnail);
-  console.log(url);
+  const [, deletePost] = useDeletePostMutation();
   return (
     <PodcastCardStyle key={id}>
       <div className="img-block">
@@ -29,6 +30,12 @@ const PodcastCard: React.FC<PodcastCardProps> = ({
           <h1>{title}</h1>
           <p>{description?.slice(0, 30)}</p>
         </a>
+        <FaTrash
+          onClick={() => {
+            console.log(id);
+            deletePost({ id });
+          }}
+        />
       </div>
     </PodcastCardStyle>
   );

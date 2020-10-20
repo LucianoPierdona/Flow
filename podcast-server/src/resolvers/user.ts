@@ -4,11 +4,13 @@ import {
   Arg,
   Ctx,
   Field,
+  FieldResolver,
   InputType,
   Mutation,
   ObjectType,
   Query,
   Resolver,
+  Root,
 } from "type-graphql";
 import argon2 from "argon2";
 import { COOKIE_NAME } from "../constants";
@@ -39,8 +41,18 @@ class UserResponse {
   user?: NewUser;
 }
 
-@Resolver()
+@Resolver(NewUser)
 export class UserResolver {
+  @FieldResolver(() => String)
+  email(@Root() user: NewUser, @Ctx() { req }: MyContext) {
+    if (req.session.userId === user.id) {
+      return user.username;
+    }
+
+    // current user want to see someone elses email.
+    return "";
+  }
+
   @Query(() => NewUser, { nullable: true })
   async me(@Ctx() { req }: MyContext) {
     //you are not logged in

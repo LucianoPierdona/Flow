@@ -30,6 +30,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Podcast.prototype, "creatorId", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.ManyToOne(() => NewUser_1.NewUser, (user) => user.podcasts),
     __metadata("design:type", NewUser_1.NewUser)
 ], Podcast.prototype, "creator", void 0);

@@ -5,9 +5,6 @@ query Podcasts {
     url
     thumbnail
     description
-    creator {
-      id
-      username
-    }
+    creatorId
   }
 }
