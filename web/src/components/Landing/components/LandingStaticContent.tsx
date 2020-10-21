@@ -36,7 +36,7 @@ export const LandingStaticContent = () => {
       <CreateContainer>
         <h1>Create Your Podcast Card</h1>
         <p>Click in the button below to create your podcast.</p>
-        <Link to="/">Create Podcast Card</Link>
+        <Link to="/create">Create Podcast Card</Link>
       </CreateContainer>
     </>
   );

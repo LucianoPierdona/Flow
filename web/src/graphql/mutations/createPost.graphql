@@ -1,0 +1,10 @@
+mutation CreatePodcast($id: Float!, $input: PodcastInput!) {
+  createPodcast(id: $id, input: $input) {
+    id
+    url
+    title
+    description
+    thumbnail
+    creatorId
+  }
+}

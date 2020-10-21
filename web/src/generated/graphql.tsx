@@ -113,6 +113,20 @@ export type RegularUserFragment = (
   & Pick<NewUser, 'id' | 'username'>
 );
 
+export type CreatePodcastMutationVariables = Exact<{
+  id: Scalars['Float'];
+  input: PodcastInput;
+}>;
+
+
+export type CreatePodcastMutation = (
+  { __typename?: 'Mutation' }
+  & { createPodcast: (
+    { __typename?: 'Podcast' }
+    & Pick<Podcast, 'id' | 'url' | 'title' | 'description' | 'thumbnail' | 'creatorId'>
+  ) }
+);
+
 export type DeletePostMutationVariables = Exact<{
   id: Scalars['Float'];
 }>;
@@ -198,6 +212,22 @@ export const RegularUserFragmentDoc = gql`
   username
 }
     `;
+export const CreatePodcastDocument = gql`
+    mutation CreatePodcast($id: Float!, $input: PodcastInput!) {
+  createPodcast(id: $id, input: $input) {
+    id
+    url
+    title
+    description
+    thumbnail
+    creatorId
+  }
+}
+    `;
+
+export function useCreatePodcastMutation() {
+  return Urql.useMutation<CreatePodcastMutation, CreatePodcastMutationVariables>(CreatePodcastDocument);
+};
 export const DeletePostDocument = gql`
     mutation DeletePost($id: Float!) {
   deletePost(id: $id)
