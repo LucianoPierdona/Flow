@@ -5,7 +5,7 @@ export const PodcastCardStyle = styled.div`
   background: linear-gradient(60deg, #fff, #effcef);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 2px 2px rgba(0, 0, 0, 0.06),
     0 4px 4px rgba(0, 0, 0, 0.06), 0 8px 8px rgba(0, 0, 0, 0.06),
-    0 16px 16px rgba(0, 0, 0, 0.06);
+    0 -8px 8px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,6 +33,21 @@ export const PodcastCardStyle = styled.div`
       font-family: "Poppins", sans-serif;
       color: #94d3ac;
       font-size: 12px;
+    }
+  }
+  & .icons-block {
+    padding-left: 0;
+    width: 100%;
+    text-align: right;
+    & .trash-icon {
+      opacity: 0.2;
+      color: tomato;
+      cursor: pointer;
+      transition: 0.2s;
+      &:hover {
+        opacity: 1;
+        color: #655c56;
+      }
     }
   }
 `;

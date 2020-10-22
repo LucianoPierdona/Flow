@@ -30,12 +30,15 @@ const PodcastCard: React.FC<PodcastCardProps> = ({
           <h1>{title}</h1>
           <p>{description?.slice(0, 30)}</p>
         </a>
-        <FaTrash
-          onClick={() => {
-            console.log(id);
-            deletePost({ id });
-          }}
-        />
+        <div className="icons-block">
+          <FaTrash
+            className="trash-icon"
+            onClick={() => {
+              console.log(id);
+              deletePost({ id });
+            }}
+          />
+        </div>
       </div>
     </PodcastCardStyle>
   );

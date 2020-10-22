@@ -60,6 +60,9 @@ export const CreateContainer = styled.div`
   align-items: center;
   z-index: 0;
   padding: 75px 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 2px 2px rgba(0, 0, 0, 0.06),
+    0 4px 4px rgba(0, 0, 0, 0.06), 0 8px 8px rgba(0, 0, 0, 0.06),
+    0 16px 16px rgba(0, 0, 0, 0.06);
   & h1 {
     font-family: "Roboto", sans-serif;
     color: #655c56;
@@ -86,7 +89,7 @@ export const CreateContainer = styled.div`
 
 export const PodcastList = styled.div`
   position: relative;
-  top: 50px;
+  top: 70px;
   width: 90%;
   margin: 0 auto;
   display: grid;
