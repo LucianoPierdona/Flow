@@ -25,6 +25,7 @@ const Landing = () => {
               id={p.id}
               thumbnail={p.thumbnail}
               description={p.description}
+              creatorId={p.creatorId}
             />
           ))
         )}

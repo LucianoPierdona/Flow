@@ -12,6 +12,7 @@ const Login = () => {
   const history = useHistory();
   const [, login] = useLoginMutation();
 
+  console.log(history);
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
@@ -20,8 +21,7 @@ const Login = () => {
         if (response.data?.login.errors) {
           setErrors(toErrorMap(response.data.login.errors));
         } else if (response.data?.login.user) {
-          // worked
-          history.push("/");
+          console.log(response.data.login.user);
         }
       }}
     >

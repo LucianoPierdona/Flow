@@ -75,19 +75,6 @@ let PodcastResolver = class PodcastResolver {
             return yield manager.save(result);
         });
     }
-    updatePodcast(id, title) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const podcast = yield Podcast_1.Podcast.findOne(id);
-            console.log(id);
-            if (!podcast) {
-                return null;
-            }
-            if (typeof title !== "undefined") {
-                yield Podcast_1.Podcast.update({ id }, { title });
-            }
-            return podcast;
-        });
-    }
     deletePost(id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
             yield Podcast_1.Podcast.delete({ id, creatorId: req.session.userId });
@@ -118,14 +105,6 @@ __decorate([
     __metadata("design:paramtypes", [PodcastInput, Number, Object]),
     __metadata("design:returntype", Promise)
 ], PodcastResolver.prototype, "createPodcast", null);
-__decorate([
-    type_graphql_1.Mutation(() => Podcast_1.Podcast, { nullable: true }),
-    __param(0, type_graphql_1.Arg("id")),
-    __param(1, type_graphql_1.Arg("title", () => String, { nullable: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
-    __metadata("design:returntype", Promise)
-], PodcastResolver.prototype, "updatePodcast", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
     __param(0, type_graphql_1.Arg("id")),

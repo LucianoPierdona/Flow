@@ -67,24 +67,6 @@ export class PodcastResolver {
     return await manager.save(result);
   }
 
-  // Update a post
-  @Mutation(() => Podcast, { nullable: true })
-  async updatePodcast(
-    @Arg("id") id: number,
-    @Arg("title", () => String, { nullable: true }) title: string
-  ): Promise<Podcast | null> {
-    const podcast = await Podcast.findOne(id);
-    console.log(id);
-    if (!podcast) {
-      return null;
-    }
-    if (typeof title !== "undefined") {
-      await Podcast.update({ id }, { title });
-    }
-
-    return podcast;
-  }
-
   @Mutation(() => Boolean)
   async deletePost(
     @Arg("id") id: number,
