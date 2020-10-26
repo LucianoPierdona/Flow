@@ -52,6 +52,6 @@ yarn dev
 
 # Screenshots
 <img src="./web/public/readme1.png" alt="initial page background">
-<img src="./web/public/readme3.png" alt="initial page background">
-<img src="./web/public/readme5.png" alt="initial page background">
-<img src="./web/public/readme6.png" alt="initial page background">
+<img src="./web/public/readme3.png" alt="Login Page">
+<img src="./web/public/readme5.png" alt="List of Podcasts">
+<img src="./web/public/readme6.png" alt="Create Podcast Form">
